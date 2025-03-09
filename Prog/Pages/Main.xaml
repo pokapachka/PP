@@ -21,7 +21,8 @@
                 Width="100" 
                 Margin="430,20,0,0"
                 VerticalAlignment="Top" 
-                HorizontalAlignment="Left"/>
+                HorizontalAlignment="Left"
+                Click="ChooseFile"/>
 
         <ComboBox x:Name="cbSheets" 
                   Width="150" 
@@ -30,7 +31,6 @@
                   VerticalAlignment="Top" 
                   HorizontalAlignment="Left"/>
 
-        <!-- Таблица -->
         <DataGrid x:Name="dataGrid" 
                   AutoGenerateColumns="False" 
                   HeadersVisibility="Column"

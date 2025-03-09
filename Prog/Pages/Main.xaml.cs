@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Microsoft.Win32;
 
 namespace Prog.Pages
 {
@@ -23,6 +24,20 @@ namespace Prog.Pages
         public Main()
         {
             InitializeComponent();
+        }
+
+        private void ChooseFile(object sender, RoutedEventArgs e)
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog
+            {
+                Filter = "Excel файлы (*.xlsx)|*.xlsx|Все файлы (*.*)|*.*",
+                Title = "Выберите файл"
+            };
+
+            if (openFileDialog.ShowDialog() == true)
+            {
+                txtFilePath.Text = openFileDialog.FileName;
+            }
         }
     }
 }
