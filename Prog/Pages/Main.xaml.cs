@@ -5,6 +5,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using Microsoft.Win32;
+using Prog.Connection;
 using Excel = Microsoft.Office.Interop.Excel;
 
 namespace Prog.Pages
@@ -78,29 +79,23 @@ namespace Prog.Pages
                     bool hasEmptyCell = false;
                     bool isCntNotNumber = false;
                     newRow["ID"] = row - 1;
-
-                    // Предполагаем порядок данных в Excel: OP_KZR, OP_DSE, CNT
                     newRow["OP_KZR"] = usedRange.Cells[row, 1]?.Value2?.ToString() ?? string.Empty;
                     newRow["OP_DSE"] = usedRange.Cells[row, 2]?.Value2?.ToString() ?? string.Empty;
                     newRow["CNT"] = usedRange.Cells[row, 3]?.Value2?.ToString() ?? string.Empty;
-
                     // Проверка пустых значений
                     if (string.IsNullOrEmpty(newRow["OP_KZR"].ToString())) hasEmptyCell = true;
                     if (string.IsNullOrEmpty(newRow["OP_DSE"].ToString())) hasEmptyCell = true;
                     if (string.IsNullOrEmpty(newRow["CNT"].ToString())) hasEmptyCell = true;
-
                     // Проверка, является ли CNT числом
                     if (!string.IsNullOrEmpty(newRow["CNT"].ToString()) && !int.TryParse(newRow["CNT"].ToString(), out _))
                     {
                         isCntNotNumber = true;
                     }
-
                     // Устанавливаем флаг (0 - OK, 1 - ошибка)
                     newRow["Flag"] = (hasEmptyCell || isCntNotNumber) ? 1 : 0;
 
                     dataTable.Rows.Add(newRow);
                 }
-
                 dataGrid.ItemsSource = dataTable.DefaultView;
                 dataGrid.LoadingRow += DataGrid_LoadingRow;
             }
@@ -114,11 +109,9 @@ namespace Prog.Pages
         {
             var row = e.Row;
             var dataRow = (e.Row.Item as DataRowView)?.Row;
-
             if (dataRow != null)
             {
                 int flag = Convert.ToInt32(dataRow["Flag"]);
-
                 if (flag == 1)
                 {
                     row.Background = new SolidColorBrush(Color.FromRgb(255, 200, 200)); // Красный
@@ -136,14 +129,11 @@ namespace Prog.Pages
             {
                 workbook?.Close(false);
                 excelApp?.Quit();
-
                 // Освобождаем ресурсы
                 Marshal.ReleaseComObject(workbook);
                 Marshal.ReleaseComObject(excelApp);
-
                 workbook = null;
                 excelApp = null;
-
                 GC.Collect();
                 GC.WaitForPendingFinalizers();
             }
@@ -153,9 +143,12 @@ namespace Prog.Pages
             }
         }
 
-        private void Page_Unloaded(object sender, RoutedEventArgs e)
+        private void UploadData(object sender, RoutedEventArgs e)
         {
-            CloseExcel();
+            var db = new ConnectionDB();
+            db.ProcessGreenRecords();
+            db.CloseConnection();
+            MessageBox.Show("Обработка завершена!");
         }
     }
 }

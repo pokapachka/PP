@@ -44,5 +44,13 @@
                 <DataGridTextColumn Header="CNT" Binding="{Binding CNT}" Width="50"/>
             </DataGrid.Columns>
         </DataGrid>
+
+        <Button x:Name="btnUploadData" 
+        Content="Загрузить данные" 
+        Width="150" 
+        Margin="600,300,0,0"
+        VerticalAlignment="Top" 
+        HorizontalAlignment="Left"
+        Click="UploadData"/>
     </Grid>
 </Page>
