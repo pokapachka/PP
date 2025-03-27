@@ -88,7 +88,8 @@ namespace Prog.Pages
                     if (string.IsNullOrEmpty(newRow["OP_DSE"].ToString())) hasEmptyCell = true;
                     if (string.IsNullOrEmpty(newRow["CNT"].ToString())) hasEmptyCell = true;
                     // Проверка, является ли CNT числом
-                    if (!string.IsNullOrEmpty(newRow["CNT"].ToString()) && !int.TryParse(newRow["CNT"].ToString(), out _))
+                    int temp;
+                    if (!string.IsNullOrEmpty(newRow["CNT"].ToString()) && !int.TryParse(newRow["CNT"].ToString(), out temp))
                     {
                         isCntNotNumber = true;
                     }
