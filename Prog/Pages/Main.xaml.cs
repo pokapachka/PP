@@ -6,12 +6,14 @@ using System.Windows.Controls;
 using System.Windows.Media;
 using Microsoft.Win32;
 using Prog.Connection;
+using Prog.Models;
 using Excel = Microsoft.Office.Interop.Excel;
 
 namespace Prog.Pages
 {
     public partial class Main : Page
     {
+        MainWindow mainWindow;
         private Excel.Application excelApp;
         private Excel.Workbook workbook;
 
@@ -72,7 +74,6 @@ namespace Prog.Pages
                 dataTable.Columns.Add("OP_DSE", typeof(string));
                 dataTable.Columns.Add("CNT", typeof(string));
                 dataTable.Columns.Add("Flag", typeof(int)); // Для подсветки строк
-                // Чтение данных (начиная со 2 строки, так как 1 строка - заголовки)
                 for (int row = 2; row <= rowCount; row++)
                 {
                     var newRow = dataTable.NewRow();
@@ -145,10 +146,26 @@ namespace Prog.Pages
 
         private void UploadData(object sender, RoutedEventArgs e)
         {
-            var db = new ConnectionDB();
-            db.ProcessGreenRecords();
-            db.CloseConnection();
-            MessageBox.Show("Обработка завершена!");
+            if (Model.CurrentConnection == null)
+            {
+                MessageBox.Show("Нет активного подключения к БД!");
+                return;
+            }
+            try
+            {
+                Model.CurrentConnection.ProcessGreenRecords();
+                MessageBox.Show("Обработка завершена!");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Ошибка при обработке: {ex.Message}");
+            }
+        }
+
+        private void Logout_Click(object sender, RoutedEventArgs e)
+        {
+            Model.CloseCurrentConnection();
+            MainWindow.mainWindow.frame.Navigate(new Auth());
         }
     }
 }

@@ -32,7 +32,7 @@
            VerticalAlignment="Top"
            Margin="0,155,0,0"/>
 
-        <TextBox x:Name="Password" 
+        <PasswordBox x:Name="Password" 
              Width="200" 
              HorizontalAlignment="Center" 
              VerticalAlignment="Top"
@@ -58,6 +58,7 @@
             Width="100" 
             HorizontalAlignment="Center" 
             VerticalAlignment="Top"
-            Margin="0,275,0,0"/>
+            Margin="0,275,0,0"
+            Click="Login_Click"/>
     </Grid>
 </Page>

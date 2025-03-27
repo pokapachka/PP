@@ -1,4 +1,4 @@
-﻿using System;
+﻿    using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
@@ -13,5 +13,10 @@ namespace Prog
     /// </summary>
     public partial class App : Application
     {
+        protected override void OnExit(ExitEventArgs e)
+        {
+            Models.Model.CloseCurrentConnection();
+            base.OnExit(e);
+        }
     }
 }

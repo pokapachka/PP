@@ -11,12 +11,12 @@ namespace Prog.Connection
     public class ConnectionDB
     {
         private OleDbConnection connection;
-        private const string ConnectionString = "Provider=OraOLEDB.Oracle;Data Source=MyOracleDB;User Id=username;Password=password;";
-        public ConnectionDB()
+        public ConnectionDB(string dbName, string username, string password)
         {
+            string connectionString = $"Provider=OraOLEDB.Oracle;Data Source={dbName};User Id={username};Password={password};";
             try
             {
-                connection = new OleDbConnection(ConnectionString);
+                connection = new OleDbConnection(connectionString);
                 connection.Open();
                 MessageBox.Show("Подключение успешно установлено.");
             }
@@ -46,13 +46,13 @@ namespace Prog.Connection
         {
             try
             {
-                // 1. Создаем временную таблицу
+                // Создаем временную таблицу
                 var cmdCreateTemp = new OleDbCommand(@"CREATE GLOBAL TEMPORARY TABLE temp_green_records (id NUMBER, op_kzr VARCHAR2(100), op_dse VARCHAR2(100), cnt NUMBER) ON COMMIT PRESERVE ROWS", connection);
                 cmdCreateTemp.ExecuteNonQuery();
-                // 2. Копируем "зелёные" записи
+                // Копируем "зелёные" записи
                 var cmdInsertGreen = new OleDbCommand(@"INSERT INTO temp_green_records (id, op_kzr, op_dse, cnt) SELECT id, op_kzr, op_dse, cnt FROM main_table WHERE flag = 0", connection);
                 int insertedRows = cmdInsertGreen.ExecuteNonQuery();
-                // 3. Сравниваем и добавляем новые записи (через MERGE)
+                // Сравниваем и добавляем новые записи
                 var cmdMerge = new OleDbCommand(@"MERGE INTO permanent_table p USING temp_green_records t ON (p.op_kzr = t.op_kzr AND p.op_dse = t.op_dse) WHEN NOT MATCHED THEN INSERT (op_kzr, op_dse, cnt) VALUES (t.op_kzr, t.op_dse, t.cnt)", connection);
                 int mergedRows = cmdMerge.ExecuteNonQuery();
             }

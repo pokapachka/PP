@@ -21,14 +21,12 @@ namespace Prog
     /// </summary>
     public partial class MainWindow : Window
     {
+        public static MainWindow mainWindow;
         public MainWindow()
         {
             InitializeComponent();
-            NavigatePage();
-        }
-        void NavigatePage()
-        {
-            frame.NavigationService.Navigate(new Auth());
+            mainWindow = this;
+            frame.Navigate(new Auth());
         }
     }
 }

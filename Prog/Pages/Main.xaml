@@ -52,5 +52,12 @@
         VerticalAlignment="Top" 
         HorizontalAlignment="Left"
         Click="UploadData"/>
+
+        <Button Content="Выйти" 
+            Width="100" 
+            HorizontalAlignment="Left" 
+            VerticalAlignment="Top"
+            Margin="695,20,0,0"
+            Click="Logout_Click"/>
     </Grid>
 </Page>
