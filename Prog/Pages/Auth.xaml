@@ -8,7 +8,56 @@
       d:DesignHeight="450" d:DesignWidth="800"
       Title="Auth">
 
-    <Grid>
-        
+    <Grid Background="White">
+        <Label Content="Авторизация" 
+               FontSize="24" 
+               FontWeight="Bold" 
+               HorizontalAlignment="Center" 
+               VerticalAlignment="Top"
+               Margin="0,50,0,0"/>
+
+        <Label Content="Логин" 
+           HorizontalAlignment="Center" 
+           VerticalAlignment="Top"
+           Margin="0,100,0,0"/>
+
+        <TextBox x:Name="Login" 
+             Width="200" 
+             HorizontalAlignment="Center" 
+             VerticalAlignment="Top"
+             Margin="0,125,0,0"/>
+
+        <Label Content="Пароль" 
+           HorizontalAlignment="Center" 
+           VerticalAlignment="Top"
+           Margin="0,155,0,0"/>
+
+        <TextBox x:Name="Password" 
+             Width="200" 
+             HorizontalAlignment="Center" 
+             VerticalAlignment="Top"
+             Margin="0,180,0,0"/>
+
+        <Label Content="Название БД" 
+           HorizontalAlignment="Center" 
+           VerticalAlignment="Top"
+           Margin="0,210,0,0"/>
+
+        <ComboBox x:Name="NameDB" 
+              Width="200" 
+              HorizontalAlignment="Center" 
+              VerticalAlignment="Top"
+              Margin="0,235,0,0"
+              SelectedIndex="0">
+            <ComboBoxItem Content="tcedev" IsSelected="True"/>
+            <ComboBoxItem Content="Другая БД 1"/>
+            <ComboBoxItem Content="Другая БД 2"/>
+        </ComboBox>
+
+        <Button Content="Войти" 
+            Width="100" 
+            HorizontalAlignment="Center" 
+            VerticalAlignment="Top"
+            Margin="0,275,0,0"/>
     </Grid>
 </Page>

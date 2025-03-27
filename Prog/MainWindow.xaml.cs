@@ -28,7 +28,7 @@ namespace Prog
         }
         void NavigatePage()
         {
-            frame.NavigationService.Navigate(new Main());
+            frame.NavigationService.Navigate(new Auth());
         }
     }
 }
